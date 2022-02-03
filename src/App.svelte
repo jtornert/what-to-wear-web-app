@@ -6,21 +6,45 @@
   import Services from "./views/Services.svelte";
   import Trends from "./views/Trends.svelte";
 
-  const navigationTabs = [
-    { title: views.wardrobe.title, action: () => changeView(views.wardrobe) },
-    { title: views.styles.title, action: () => changeView(views.styles) },
-    { title: views.services.title, action: () => changeView(views.services) },
-    { title: views.trends.title, action: () => changeView(views.trends) },
-  ];
-
   const views = {
-    wardrobe: { title: "Wardrobe", topBarTitle: "Your wardrobe" },
-    styles: { title: "Styles", topBarTitle: "Your styles" },
-    services: { title: "Services", topBarTitle: "Services" },
-    trends: { title: "Trends", topBarTitle: "Trends" },
+    wardrobe: {
+      title: "Wardrobe",
+      topBarTitle: "Your wardrobe",
+      icon: "checkroom",
+    },
+    styles: { title: "Styles", topBarTitle: "Your styles", icon: "star" },
+    services: {
+      title: "Services",
+      topBarTitle: "Services",
+      icon: "shopping_cart",
+    },
+    trends: { title: "Trends", topBarTitle: "Trends", icon: "show_chart" },
   };
 
-  let currentView = views.wardrobe;
+  const navigationTabs = [
+    {
+      title: views.wardrobe.title,
+      icon: views.wardrobe.icon,
+      topBarTitle: views.wardrobe.topBarTitle,
+    },
+    {
+      title: views.styles.title,
+      icon: views.styles.icon,
+      topBarTitle: views.styles.topBarTitle,
+    },
+    {
+      title: views.services.title,
+      icon: views.services.icon,
+      topBarTitle: views.services.topBarTitle,
+    },
+    {
+      title: views.trends.title,
+      icon: views.trends.icon,
+      topBarTitle: views.trends.topBarTitle,
+    },
+  ];
+
+  let currentView = navigationTabs[0];
   let topBarTitle = views.wardrobe.topBarTitle;
 
   function changeView(view) {
@@ -33,18 +57,22 @@
   <TopBar title={topBarTitle} />
 
   <div class="view">
-    {#if currentView === views.wardrobe}
+    {#if currentView.title === views.wardrobe.title}
       <Wardrobe />
-    {:else if currentView === views.styles}
+    {:else if currentView.title === views.styles.title}
       <Styles />
-    {:else if currentView === views.services}
+    {:else if currentView.title === views.services.title}
       <Services />
-    {:else if currentView === views.trends}
+    {:else if currentView.title === views.trends.title}
       <Trends />
     {/if}
   </div>
 
-  <BottomNavigationBar tabs={navigationTabs} />
+  <BottomNavigationBar
+    tabs={navigationTabs}
+    bind:active={currentView}
+    on:click={() => changeView(currentView)}
+  />
 </div>
 
 <style>
@@ -56,5 +84,6 @@
 
   .view {
     flex: 1;
+    overflow-y: scroll;
   }
 </style>

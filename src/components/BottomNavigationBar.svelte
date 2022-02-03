@@ -1,19 +1,20 @@
 <script>
+  import TabBar from "@smui/tab-bar";
+  import Tab, { Icon } from "@smui/tab";
   export let tabs = [];
+  export let active = tabs[0];
 </script>
 
-<footer>
-  {#each tabs as tab}
-    <button on:click={tab.action}>
-      {tab.title}
-    </button>
-  {/each}
+<footer on:click>
+  <TabBar {tabs} let:tab key={(tab) => (tab = tab.title)} bind:active>
+    <Tab {tab} indicatorSpanOnlyContent={true}>
+      <Icon class="material-icons">{tab.icon}</Icon>
+    </Tab>
+  </TabBar>
 </footer>
 
 <style>
   footer {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.5em 1em;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
 </style>
