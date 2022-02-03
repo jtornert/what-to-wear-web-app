@@ -73,7 +73,7 @@
     </Button>
   </Dialog>
   <span on:click={() => (open = true)}>
-    <Fab>
+    <Fab color="primary">
       <Icon class="material-icons">add</Icon>
     </Fab>
   </span>
