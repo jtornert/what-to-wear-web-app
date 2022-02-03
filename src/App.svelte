@@ -7,10 +7,10 @@
   import Trends from "./views/Trends.svelte";
 
   const navigationTabs = [
-    { title: "Wardrobe", action: () => changeView(views.wardrobe) },
-    { title: "Styles", action: () => changeView(views.styles) },
-    { title: "Services", action: () => changeView(views.services) },
-    { title: "Trends", action: () => changeView(views.trends) },
+    { title: views.wardrobe.title, action: () => changeView(views.wardrobe) },
+    { title: views.styles.title, action: () => changeView(views.styles) },
+    { title: views.services.title, action: () => changeView(views.services) },
+    { title: views.trends.title, action: () => changeView(views.trends) },
   ];
 
   const views = {
