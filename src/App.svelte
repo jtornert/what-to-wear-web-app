@@ -7,26 +7,39 @@
   import Trends from "./views/Trends.svelte";
 
   const navigationTabs = [
-    { title: "Wardrobe", action: () => (currentView = "wardrobe") },
-    { title: "Styles", action: () => (currentView = "styles") },
-    { title: "Services", action: () => (currentView = "services") },
-    { title: "Trends", action: () => (currentView = "trends") },
+    { title: "Wardrobe", action: () => changeView(views.wardrobe) },
+    { title: "Styles", action: () => changeView(views.styles) },
+    { title: "Services", action: () => changeView(views.services) },
+    { title: "Trends", action: () => changeView(views.trends) },
   ];
 
-  let currentView = "wardrobe";
+  const views = {
+    wardrobe: { title: "Wardrobe", topBarTitle: "Your wardrobe" },
+    styles: { title: "Styles", topBarTitle: "Your styles" },
+    services: { title: "Services", topBarTitle: "Services" },
+    trends: { title: "Trends", topBarTitle: "Trends" },
+  };
+
+  let currentView = views.wardrobe;
+  let topBarTitle = views.wardrobe.topBarTitle;
+
+  function changeView(view) {
+    topBarTitle = view.topBarTitle;
+    currentView = view;
+  }
 </script>
 
 <div class="main">
-  <TopBar />
+  <TopBar title={topBarTitle} />
 
   <div class="view">
-    {#if currentView === "wardrobe"}
+    {#if currentView === views.wardrobe}
       <Wardrobe />
-    {:else if currentView === "styles"}
+    {:else if currentView === views.styles}
       <Styles />
-    {:else if currentView === "services"}
+    {:else if currentView === views.services}
       <Services />
-    {:else if currentView === "trends"}
+    {:else if currentView === views.trends}
       <Trends />
     {/if}
   </div>
