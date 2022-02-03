@@ -99,8 +99,8 @@
   }
 
   .image-list {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(4em, 1fr));
     align-items: center;
     margin: 0;
     padding: 0;
