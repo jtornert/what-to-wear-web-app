@@ -1,5 +1,5 @@
 <script>
-  import Fab, { Icon } from "@smui/fab";
+  import Fab, { Icon } from "@smui/fab"
 </script>
 
 <main>
