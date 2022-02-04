@@ -84,6 +84,6 @@
 
   .view {
     flex: 1;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 </style>

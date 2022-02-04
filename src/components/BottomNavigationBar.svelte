@@ -16,5 +16,6 @@
 <style>
   footer {
     border-top: 1px solid rgba(0, 0, 0, 0.1);
+    overflow: auto;
   }
 </style>
