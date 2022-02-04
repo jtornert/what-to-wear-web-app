@@ -62,6 +62,7 @@
       <Label>From gallery</Label>
     </Button>
   </Dialog>
+
   <span on:click={() => (open = true)}>
     <Fab color="primary">
       <Icon class="material-icons">add</Icon>
@@ -94,6 +95,7 @@
       on:disable={() => removeFilter("professional")}>Professional</Tag
     >
   </div>
+
   <ul class="image-list">
     {#each displayedClothes as image}
       <img src={image.image} alt="clothes" />
@@ -103,7 +105,7 @@
 
 <style>
   main {
-    padding: 1em;
+    padding: 0 1em;
     position: relative;
     height: auto;
   }
@@ -115,12 +117,15 @@
   }
 
   .tag-list {
+    position: sticky;
+    top: 0;
     display: flex;
     flex-wrap: wrap;
     gap: 0.2em;
-    padding-bottom: 1em;
+    padding: 1em 0;
     margin-bottom: 1em;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: white;
   }
 
   .image-list {
