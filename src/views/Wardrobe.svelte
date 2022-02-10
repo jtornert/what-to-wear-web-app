@@ -130,8 +130,8 @@
 
   .image-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(4em, 1fr));
-    align-items: center;
+    grid-template-columns: repeat(auto-fill, minmax(5em, 1fr));
+    place-items: center;
     margin: 0;
     padding: 0;
     width: 100%;

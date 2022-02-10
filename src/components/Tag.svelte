@@ -1,5 +1,4 @@
 <script>
-  import { Label } from "@smui/common";
   import { createEventDispatcher } from "svelte";
   export let selected = false;
   let dispatch = createEventDispatcher();

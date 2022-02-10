@@ -59,6 +59,12 @@
           on:enable={() => addTag("professional")}
           on:disable={() => removeTag("professional")}>Professional</Tag
         >
+        <span
+          style="display: inline-flex;align-items: center;cursor: pointer;color: rgb(98, 0, 238);"
+        >
+          <Icon class="material-icons">add</Icon>
+          <Label>Add tag</Label>
+        </span>
       </div>
       <div class="buttons">
         <Button>
