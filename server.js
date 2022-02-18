@@ -7,9 +7,7 @@ const root = `${__dirname}/public`;
 const port = 8081;
 const storage = multer.diskStorage({
   destination: `${root}/img/`,
-  filename: (req, file, cb) => {
-    cb(null, `${file.originalname}`);
-  },
+  filename: (req, file, cb) => cb(null, `${Date.now()}_${file.originalname}`),
 });
 const upload = multer({ storage: storage });
 
@@ -39,7 +37,7 @@ app.get("/images", (req, res) => {
 
 app.post("/images", upload.single("photo"), (req, res) => {
   images.push({
-    image: `./img/${req.file.originalname}`,
+    image: `./img/${req.file.filename}`,
     tags: JSON.parse(req.body.tags),
   });
   res.json({ success: true });

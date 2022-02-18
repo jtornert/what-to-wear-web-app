@@ -4,10 +4,10 @@
   import { flip } from "svelte/animate";
   import { quintOut } from "svelte/easing";
 
-  import Fab, { Icon } from "@smui/fab";
   import Dialog from "@smui/dialog";
-  import Button, { Label } from "@smui/button";
+  import Button, { Icon, Label } from "@smui/button";
   import Snackbar from "@smui/snackbar";
+  import IconButton from "@smui/icon-button";
 
   import Tag from "../components/Tag.svelte";
 
@@ -22,6 +22,7 @@
   let filters = [];
   $: tags = JSON.stringify(filters);
   let displayedClothes = [];
+  let action = "add";
 
   onMount(async () => {
     const res = await fetch("http://localhost:8081/images");
@@ -48,15 +49,12 @@
   function addFilter(tag) {
     filters.push(tag);
     filters = filters;
-    filters = filters;
     renderList();
-    console.log(tags);
   }
 
   function removeFilter(tag) {
     filters = filters.filter((value) => value !== tag);
     renderList();
-    console.log(tags);
   }
 
   function previewImg() {
@@ -92,77 +90,92 @@
       snackbar.open();
     }
   }
+
+  function addPhoto() {
+    action = "add";
+    open = true;
+  }
+
+  function selectFilters() {
+    action = "filters";
+    open = true;
+  }
 </script>
 
 <main>
   <Snackbar bind:this={snackbar}>
     <Label>Item added to wardrobe!</Label>
-    <!-- <Actions>
-      <IconButton class="material-icons" title="Dismiss">close</IconButton>
-    </Actions> -->
   </Snackbar>
 
   <Dialog bind:open>
-    <Button on:click={() => (open = false)}>
-      <Icon class="material-icons">add_a_photo</Icon>
-      <Label>Take a photo</Label>
-    </Button>
-    <Button
-      on:click={() => {
-        open = false;
-        view = "gallery";
-      }}
-    >
-      <Icon class="material-icons">collections</Icon>
-      <Label>From gallery</Label>
-    </Button>
+    {#if action === "add"}
+      <Button on:click={() => (open = false)}>
+        <Icon class="material-icons">add_a_photo</Icon>
+        <Label>Take a photo</Label>
+      </Button>
+      <Button
+        on:click={() => {
+          open = false;
+          view = "gallery";
+        }}
+      >
+        <Icon class="material-icons">collections</Icon>
+        <Label>From gallery</Label>
+      </Button>
+    {:else if action === "filters"}
+      <div class="tag-list">
+        <Tag
+          on:enable={() => addFilter("casual")}
+          on:disable={() => removeFilter("casual")}>Casual</Tag
+        >
+        <Tag
+          on:enable={() => addFilter("chill")}
+          on:disable={() => removeFilter("chill")}>Chill</Tag
+        >
+        <Tag
+          on:enable={() => addFilter("sporty")}
+          on:disable={() => removeFilter("sporty")}>Sporty</Tag
+        >
+        <Tag
+          on:enable={() => addFilter("trendy")}
+          on:disable={() => removeFilter("trendy")}>Trendy</Tag
+        >
+        <Tag
+          on:enable={() => addFilter("party")}
+          on:disable={() => removeFilter("party")}>Party</Tag
+        >
+        <Tag
+          on:enable={() => addFilter("professional")}
+          on:disable={() => removeFilter("professional")}>Professional</Tag
+        >
+      </div>
+    {/if}
   </Dialog>
 
   {#if view === "wardrobe"}
-    <span on:click={() => (open = true)}>
-      <Fab color="primary">
-        <Icon class="material-icons">add</Icon>
-      </Fab>
-    </span>
-
-    <div class="tag-list">
-      <Tag
-        on:enable={() => addFilter("casual")}
-        on:disable={() => removeFilter("casual")}>Casual</Tag
-      >
-      <Tag
-        on:enable={() => addFilter("chill")}
-        on:disable={() => removeFilter("chill")}>Chill</Tag
-      >
-      <Tag
-        on:enable={() => addFilter("sporty")}
-        on:disable={() => removeFilter("sporty")}>Sporty</Tag
-      >
-      <Tag
-        on:enable={() => addFilter("trendy")}
-        on:disable={() => removeFilter("trendy")}>Trendy</Tag
-      >
-      <Tag
-        on:enable={() => addFilter("party")}
-        on:disable={() => removeFilter("party")}>Party</Tag
-      >
-      <Tag
-        on:enable={() => addFilter("professional")}
-        on:disable={() => removeFilter("professional")}>Professional</Tag
-      >
-    </div>
-
     <ul class="image-list">
       {#each displayedClothes as image, i (image.image)}
         <img
           src={image.image}
           alt="clothes"
-          in:fly={{ x: -100, delay: i * 10 }}
-          out:scale={{ duration: 200 + i * 30 }}
-          animate:flip={{ easing: quintOut, duration: 350 + i * 20 }}
+          in:fly={{ x: -100, duration: 300 }}
+          out:scale={{ duration: 200 }}
+          animate:flip={{ easing: quintOut, duration: 350 }}
         />
       {/each}
     </ul>
+
+    <div class="actions">
+      <Button variant="unelevated" on:click={selectFilters}>
+        <Label>Filter by tags</Label>
+      </Button>
+      <div class="flex-row">
+        <IconButton class="material-icons" disabled>star</IconButton>
+        <IconButton class="material-icons" disabled>delete</IconButton>
+        <IconButton class="material-icons" disabled>edit</IconButton>
+        <IconButton class="material-icons" on:click={addPhoto}>add</IconButton>
+      </div>
+    </div>
   {:else if view === "gallery"}
     <form
       bind:this={form}
@@ -252,8 +265,6 @@
     flex-wrap: wrap;
     gap: 0.2em;
     padding: 1em 0;
-    margin-bottom: 1em;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     background-color: white;
   }
 
@@ -335,5 +346,15 @@
     place-items: center;
     opacity: 0.5;
     color: white;
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .flex-row {
+    display: flex;
+    justify-content: space-between;
   }
 </style>
